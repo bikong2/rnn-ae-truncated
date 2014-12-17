@@ -73,7 +73,7 @@ if __name__ == '__main__':
             if s['verbose']:
                 print '[learning] epoch %i >> %2.2f%%'%(e,(i+1)*100./nsentences),'completed in %.2f (sec) <<\r'%(time.time()-tic),
                 sys.stdout.flush()
-            
+
         # evaluation // back into the real world : idx -> words
         predictions_test = [ map(lambda x: idx2label[x], \
                              rnn.classify(numpy.asarray(contextwin(x, s['win'])).astype('int32')))\

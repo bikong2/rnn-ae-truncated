@@ -3,7 +3,7 @@ import argparse
 def get_parser():
 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('--benchmark', action='store', dest='benchmark',help='training file',default = 'nyt.pkl.gz')
+	parser.add_argument('--benchmark', action='store', dest='benchmark',help='training file',default = 'nyt.100.pkl.gz')
 
 	parser.add_argument('--outfile', action='store', dest='outfile',help='development output file, default : nyt.dev.predict',default = 'nyt.dev.predict')
 

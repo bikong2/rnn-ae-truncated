@@ -71,7 +71,7 @@ class model(object):
 
 		rec_h = T.mean(self.h_rec ** 2)
 		rec_x = T.mean(self.x_rec ** 2)
-		loss = nll  + rec_h + rec_x
+		loss = nll	+ rec_h + rec_x
 
 		gradients = T.grad( loss, self.params )
 		updates = OrderedDict(( p, p-lr*g ) for p, g in zip( self.params , gradients))
@@ -86,6 +86,7 @@ class model(object):
 		self.normalize = theano.function( inputs = [],
 						 updates = {self.emb:\
 						 self.emb/T.sqrt((self.emb**2).sum(axis=1)).dimshuffle(0,'x')})
+		self.get_nll = theano.function( inputs = [idxs, y], outputs = nll)
 
 	def save(self, folder):	  
 		for param, name in zip(self.params, self.names):
