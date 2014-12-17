@@ -5,7 +5,6 @@ import subprocess
 import os
 import random
 
-from inputParser import get_parser
 from is13.data import load
 from is13.rnn.elman import model
 from is13.metrics.accuracy import conlleval
@@ -13,19 +12,16 @@ from is13.utils.tools import shuffle, minibatch, contextwin
 
 if __name__ == '__main__':
 
-	parser = get_parser()
-	p = parser.parse_args()
-
-    s = {'benchmark':p.benchmark, # name of the benchmark
+    s = {'fold':3, # 5 folds 0,1,2,3,4
          'lr':0.0627142536696559,
          'verbose':1,
          'decay':False, # decay on the learning rate if improvement stops
-         'win':p.win, # number of words in the context window
-         'bs':p.bs, # number of backprop through time steps
-         'nhidden':p.nhidden, # number of hidden units
+         'win':7, # number of words in the context window
+         'bs':9, # number of backprop through time steps
+         'nhidden':100, # number of hidden units
          'seed':345,
-         'emb_dimension':p.emb_dimension, # dimension of word embedding
-         'nepochs':p.nepochs}
+         'emb_dimension':100, # dimension of word embedding
+         'nepochs':50}
 
     folder = os.path.basename(__file__).split('.')[0]
     if not os.path.exists(folder): os.mkdir(folder)
@@ -107,7 +103,7 @@ if __name__ == '__main__':
             subprocess.call(['mv', folder + '/current.valid.txt', folder + '/best.valid.txt'])
         else:
             print ''
-
+        
         # learning rate decay if no improvement in 10 epochs
         if s['decay'] and abs(s['be']-s['ce']) >= 10: s['clr'] *= 0.5 
         if s['clr'] < 1e-5: break
